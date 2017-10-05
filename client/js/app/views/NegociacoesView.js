@@ -1,14 +1,10 @@
-//Classe para retornar a view
+class NegociacoesView extends View {
 
-class NegociacoesView {
-
-    // O constructor recebe um elemento do DOM que usaremos para colocar o modelo dentro
     constructor(elemento){
-        this._elemento = elemento;
+        super(elemento);
     }
 
-    // O template pega o array e por meio de uma template string retorna o html da página
-    _template(model){
+    template(model){
         return `
             <table class="table table-hover table-bordered">
             <thead>
@@ -33,21 +29,11 @@ class NegociacoesView {
             
             <tfoot>
                 <td colspan="3"></td>
-                <td>${
-                    (function(){
-                        let total = 0;
-                        model.negociacoes.forEach(n => total += n.volume);
-                        return total;
-                    })()
-                }</td>
+                <td>
+                    ${model.negociacoes.reduce((total, n) => total + n.volume, 0.0)}
+                </td>
             </tfoot>
         </table>
         `;
     }
-
-    update(model){
-        this._elemento.innerHTML = this._template(model);
-    }
-
 }
-
